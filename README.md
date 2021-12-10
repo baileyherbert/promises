@@ -16,15 +16,15 @@ This class allows you to create a `Promise` which can easily be resolved or reje
 import { PromiseCompletionSource } from '@baileyherbert/promises';
 
 function runFakeTask() {
-	const source = new PromiseCompletionSource();
+    const source = new PromiseCompletionSource();
 
-	// Resolves the promise after 5 seconds
-	setTimeout(() => {
-		source.resolve();
-	}, 5000);
+    // Resolves the promise after 5 seconds
+    setTimeout(() => {
+        source.resolve();
+    }, 5000);
 
-	// Returns the promise object
-	return source.promise;
+    // Returns the promise object
+    return source.promise;
 }
 
 // Resolves after 5 seconds
@@ -51,7 +51,7 @@ await new PromiseTimeoutSource(30000);
 
 ```ts
 new PromiseTimeoutSource(30000, () => {
-	console.log('This runs after 30 seconds!');
+    console.log('This runs after 30 seconds!');
 });
 ```
 
@@ -59,7 +59,7 @@ new PromiseTimeoutSource(30000, () => {
 
 ```ts
 const timeout = new PromiseTimeoutSource(30000, () => {
-	console.log('This runs after 30 seconds!');
+    console.log('This runs after 30 seconds!');
 });
 
 // The action will never run because it gets cancelled after 15 sec!
@@ -81,7 +81,7 @@ This is a promise alternative that must be manually started, and can be cancelle
 import { Task } from '@baileyherbert/promises';
 
 const task = new Task((resolve, reject) => {
-	resolve();
+    resolve();
 });
 
 // Tell the task when to start
@@ -92,12 +92,12 @@ await task;
 
 // You can also wait with a timeout
 if (!await task.wait(10000)) {
-	// Timed out
+    // Timed out
 }
 
 // Get the resolved value
 if (task.isResolved) {
-	const taskResult = task.result;
+    const taskResult = task.result;
 }
 ```
 
@@ -107,13 +107,13 @@ You can combine this with a `CancellationToken` to make the task cancellable.
 const source = new CancellationTokenSource();
 const token = source.token;
 const task = new Task(async (resolve, reject, cancel) => {
-	for (let i = 0; i < 100; i++) {
-		await Task.delay(100);
-		cancel.throwIfCancellationRequested();
-	}
+    for (let i = 0; i < 100; i++) {
+        await Task.delay(100);
+        cancel.throwIfCancellationRequested();
+    }
 }, token);
 
 if (await task === TaskStatus.Cancelled) {
-	// It was cancelled!
+    // It was cancelled!
 }
 ```
